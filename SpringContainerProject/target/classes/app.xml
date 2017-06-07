@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 클래스 등록 -->
+	<!-- default 생성자 -->
+	<bean id="sa" class="com.sist.sawon.Sawon"
+	p:sabun="1"
+	p:name="홍길동"
+	p:dept="개발부"
+	/>
+	
+	<bean id="sap" class="com.sist.sawon.Sawon" scope="prototype" init-method="init" destroy-method="destory"
+	p:sabun="1"
+	p:name="홍길동"
+	p:dept="개발부"
+	/>
+	
+	<!-- Class clsName=Class.forName(class명);
+		Object obj = clsName.newInstance();
+		map.put("sa", obj); 이거랑 같은 역할
+		결국 주소가 같을 것이다. singleton
+		
+		Object clone()이게 복제
+		  -->
+		  
+	<bean id="sa2" class="com.sist.sawon.Sawon2">
+		<constructor-arg value="3"/>
+		<constructor-arg value="복길이"/>
+		<constructor-arg value="마케팅"/>
+	</bean>
+
+</beans>

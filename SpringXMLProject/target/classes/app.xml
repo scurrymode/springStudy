@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	<!-- 오라클 정보를 모아서 전송 : dirver, url, username, password -->
+	<!-- DataSource -->
+	<bean id="ds"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="oracle.jdbc.driver.OracleDriver"
+		p:url="jdbc:oracle:thin:@localhost:1521:ORCL"
+		p:username="scott"
+		p:password="tiger"
+		p:maxActive="10"
+		p:maxIdle="5"
+		p:maxWait="-1"
+	/>
+	<!-- MyBatis: SqlSessionFactory -->
+	<bean id="ssf"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="ds"
+		p:configLocation="classpath:Config.xml"
+		/>
+	<!-- 동시에 모아서 처리: SqlSessionTemplate -->
+	<bean id="sst"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="ssf"/>
+	</bean>
+	<!-- DAO로 전송 -->
+	<bean id="dao" class="com.sist.dao.EmpDAO" p:sqlSessionTemplate-ref="sst"/>
+	
+	<!-- 필요한 곳에 전송 -->
+	<bean id="mc" class="com.sist.xml.MainClass" p:dao-ref="dao"/>
+
+</beans>
