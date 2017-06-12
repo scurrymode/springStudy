@@ -11,7 +11,7 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	<filter>
+	<filter><!-- 이건 post 방식에 대한 거 get에 대한건 server.xml에서 -->
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>

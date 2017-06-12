@@ -58,10 +58,6 @@
 
 				<form action="" method="get" id="form_search">
 
-					<input name="input" type="text" id="search_box" /> <input name=""
-						type="image" id="search_btn" value="" />
-
-
 				</form>
 
 			</div>

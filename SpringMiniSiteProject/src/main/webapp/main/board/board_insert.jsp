@@ -61,8 +61,7 @@
 							</td>
 						</tr>
 					</table>
-					<table border=0 width=425 id="fileView">
-						
+					<table border=0 width=425 id="fileView">	
 					</table>
 				</td> 
 				

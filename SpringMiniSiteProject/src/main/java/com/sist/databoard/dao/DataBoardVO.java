@@ -24,7 +24,17 @@ public class DataBoardVO {
 	private String filename;
 	private String filesize;
 	private int filecount;
-	private List<MultipartFile> upload = new ArrayList<MultipartFile>();
+	private List<MultipartFile> upload;
+	private List<DataBoardFileVO> fileList = new ArrayList<DataBoardFileVO>(); //파일이름과 사이즈를 하나로 묶어서 보내주려공~!
+	
+	
+	public List<DataBoardFileVO> getFileList() {
+		return fileList;
+	}
+
+	public void setFileList(List<DataBoardFileVO> fileList) {
+		this.fileList = fileList;
+	}
 
 	public List<MultipartFile> getUpload() {
 		return upload;
