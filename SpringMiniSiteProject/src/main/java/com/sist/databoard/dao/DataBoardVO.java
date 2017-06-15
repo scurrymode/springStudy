@@ -26,8 +26,17 @@ public class DataBoardVO {
 	private int filecount;
 	private List<MultipartFile> upload;
 	private List<DataBoardFileVO> fileList = new ArrayList<DataBoardFileVO>(); //파일이름과 사이즈를 하나로 묶어서 보내주려공~!
+	private int replycount; //댓글갯수
 	
 	
+	public int getReplycount() {
+		return replycount;
+	}
+
+	public void setReplycount(int replycount) {
+		this.replycount = replycount;
+	}
+
 	public List<DataBoardFileVO> getFileList() {
 		return fileList;
 	}

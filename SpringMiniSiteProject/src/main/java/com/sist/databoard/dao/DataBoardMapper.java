@@ -1,5 +1,6 @@
 package com.sist.databoard.dao;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -37,7 +38,9 @@ public interface DataBoardMapper {
 	public DataBoardVO databoardGetFileInfo(int no);
 	@Update("UPDATE dataBoard SET name=#{name}, subject=#{subject}, content=#{content}, filename=#{filename}, filesize=#{filesize}, filecount=#{filecount} WHERE no=#{no}")
 	public void databoardUpdate(DataBoardVO vo);
-	//삭제하기
 	
+	//삭제하기
+	@Delete("DELETE FROM dataBoard WHERE no=#{no}")
+	public void dataBoardDelete(int no);
 	
 }

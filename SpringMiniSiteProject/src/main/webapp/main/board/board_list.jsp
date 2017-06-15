@@ -33,6 +33,9 @@
 					<td width=10% align=center>${vo.no}</td>
 					<td width=45%>
 					<a href="board_content.do?no=${vo.no}&page=${curpage}">${vo.subject}</a>
+					<c:if test="${vo.replycount>0 }">
+					(${vo.replycount})
+					</c:if>
 					</td>
 					<td width=15% align=center>${vo.name}</td>
 					<td width=20% align=center><fmt:formatDate value="${vo.regdate }" pattern="yyyy-MM-dd" /></td>

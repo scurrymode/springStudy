@@ -19,6 +19,11 @@ $(function(){
 			content:"postfind.do",player:'iframe',title:'우편번호 검색(지번)',width:450,height:400
 		});
 	});
+	$('#idcheckBtn').click(function(){
+		Shadowbox.open({
+			content:"idcheck.do", player:'iframe',title:'아이디중복체크',width:330, height:150
+		});
+	});
 });
 </script>
 </head>

@@ -62,16 +62,77 @@ public class FoodManager {
 				vo.setCategory(title);
 				vo.setSubject(subject);
 				list.add(vo);
-				
-				
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		
-		
 		return list;
 	}
 	
+	public List<FoodVO> categoryDetailData(String link){
+		List<FoodVO> list = new ArrayList<FoodVO>();
+		try {
+			Document doc=Jsoup.connect("http://www.mangoplate.com"+link).get();
+			Elements nElem=doc.select("div.info span.title h3");
+			Elements sElem=doc.select("div.info strong.point span");
+			Elements aElem=doc.select("div.info p.etc");
+			Elements pElem=doc.select("div.thumb img");
+			Elements lElem=doc.select("div.info span.title a");
+			for(int i=0; i<nElem.size();i++){
+				Element name=nElem.get(i);
+				Element poster = pElem.get(i);
+				Element address = aElem.get(i);
+				Element score = sElem.get(i);
+				Element link2 = lElem.get(i);
+
+				FoodVO vo = new FoodVO();
+				vo.setName(name.text().trim());
+				vo.setPoster(poster.attr("src"));
+				vo.setAddress(address.text());
+				vo.setScore(Double.parseDouble(score.text().trim()));
+				vo.setLink(link2.attr("href"));
+				list.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public FoodVO foodDetailData(String link){
+		FoodVO vo= new FoodVO();
+		
+		try{
+			Document doc = Jsoup.connect("http://www.mangoplate.com"+link).get();
+			Element name=doc.select("span.title h1.restaurant_name").first();
+			Element score=doc.select("span.title span.rate-point").first();
+			Element poster=doc.select("div.list-photo_wrap figure.restaurant-photos-item img").first();
+			Element address=doc.select("tbody td a.addr-txt").first();
+			Element tel=doc.select("tbody td a.tel_area").first();
+			Element type=doc.select("tbody tr:eq(2) td").first();
+			Element price=doc.select("tbody tr:eq(3) td").first();
+			Elements temp = doc.select("div.title_fliter_wrap li.review_fliter_item button");
+			vo.setName(name.text());
+			vo.setScore(Double.parseDouble(score.text().trim()));
+			vo.setPoster(poster.attr("src"));
+			vo.setAddress(address.text());
+			vo.setTel(tel.text());
+			vo.setType(type.text());
+			vo.setPrice(price.text());
+			for(int i=0;i<temp.size();i++){
+				Element elem=temp.get(i);
+				if(i==1) vo.setGood(elem.text());
+				else if(i==2) vo.setSoso(elem.text());
+				else if(i==3) vo.setBad(elem.text());
+			}
+						
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
 	
 }

@@ -1,7 +1,11 @@
 package com.sist.food;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sist.databoard.dao.DataBoardFileVO;
 import com.sist.databoard.dao.DataBoardService;
 import com.sist.databoard.dao.DataBoardVO;
+import com.sist.databoard.dao.DataReplyVO;
 @Controller
 public class DataBoardController {
 	@Autowired
@@ -36,6 +41,9 @@ public class DataBoardController {
 		map.put("end", end);
 		
 		List<DataBoardVO> list = service.databoardListData(map);
+		for(DataBoardVO vo: list){
+			vo.setReplycount(service.replyCount(vo.getNo()));
+		}
 		
 		
 		model.addAttribute("list", list);
@@ -99,6 +107,8 @@ public class DataBoardController {
 			}
 			vo.setFileList(list);
 		}
+		List<DataReplyVO> rList = service.replyListData(no);
+		model.addAttribute("rList", rList);
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
 		model.addAttribute("main_jsp", "board/board_content.jsp");
@@ -189,7 +199,6 @@ public class DataBoardController {
 			e.printStackTrace();
 		}
 		
-		
 		String send="";
 		if(bCheck==true){
 			send="<script>location.href=\"board_content.do?no="+vo.getNo()+"&page="+page+"\";</script>";
@@ -200,13 +209,41 @@ public class DataBoardController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping("main/board_delete.do")
+	public String board_delete(int no, int page, Model model){
+		model.addAttribute("no",no);
+		model.addAttribute("page",page);
+		return "main/board/board_delete";
+	}
+	@RequestMapping("main/board_delete_ok.do")
+	public String board_delete_ok(int no, int page, String pwd, Model model){
+		int res=0;
+		String db_pwd=service.databoardGetPwd(no);
+		if(db_pwd.equals(pwd)){
+			res=1; //비번이 맞으면
+			//파일삭제
+			DataBoardVO vo=service.databoardGetFileInfo(no);
+			if(vo.getFilecount()>0){
+				try{
+					String[] files = vo.getFilename().split(",");
+					for(String f : files){
+						File file = new File("c://uploading/"+f);
+						file.delete();
+					}
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
+			//댓글삭제
+			service.boardDelete(no);
+			//게시물삭제
+		}else{
+			res=2;
+		}
+		model.addAttribute("res", res);
+		return "main/board/board_delete_result";
+	}
+
 	
 }
 

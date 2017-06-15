@@ -12,6 +12,8 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.sist.*" />
 
+
+<!-- 마이바티스 처리 -->
 	<util:properties id="db" location="/WEB-INF/db.properties" />
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource"
 		p:driverClassName="#{db['uername']}" p:url="#{db['url']}" p:username="#{db['username']}"
@@ -20,8 +22,14 @@
 		p:dataSource-ref="ds" />
 	<bean id="bMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"
 		p:sqlSessionFactory-ref="ssf" p:mapperInterface="com.sist.databoard.dao.DataBoardMapper" />
+	<bean id="rMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionFactory-ref="ssf" p:mapperInterface="com.sist.databoard.dao.DataReplyMapper" />
 	<bean id="mMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"
 		p:sqlSessionFactory-ref="ssf" p:mapperInterface="com.sist.member.dao.MemberMapper" />
+	<bean id="fMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"
+		p:sqlSessionFactory-ref="ssf" p:mapperInterface="com.sist.food.dao.FoodMapper" />
+
+
 	
 	<!-- @ResponseBody로 String 처리할때 한글처리 -->
 	<mvc:annotation-driven>
